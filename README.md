@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # 🏠 Floor Plan Analyzer with Room Segmentation and OCR
 
 This repository contains a **Streamlit web application** that performs the following operations:
