@@ -2,3 +2,5 @@ data/*
 ocr_crop/*
 __pycache__
 archive.py
+crop/
+outputs/
