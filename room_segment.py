@@ -14,10 +14,10 @@ def segment_rooms(image):
     mask1 = cv2.inRange(image, (blue_lower1, green_lower1, red_lower1), (blue_upper1, green_upper1, red_upper1))
 
     mask = cv2.bitwise_or(mask, mask1)
+    image_c = image.copy()
+    image_c[mask == 255] = (255, 255, 255)
 
-    image[mask == 255] = (255, 255, 255)
-
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    gray = cv2.cvtColor(image_c, cv2.COLOR_BGR2GRAY)
 
     _, thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
 
@@ -32,7 +32,7 @@ def segment_rooms(image):
     for y,row in enumerate(corners):
         x_same_y = np.argwhere(row)
         for x1, x2 in zip(x_same_y[:-1], x_same_y[1:]):
-            if x2[0] - x1[0] < 190:  # max line length
+            if x2[0] - x1[0] < 225:  # max line length
                 color = 0
                 # print(x1)
                 cv2.line(opening, (x1[0], y), (x2[0], y), 255, 1)
@@ -40,7 +40,7 @@ def segment_rooms(image):
         for x,col in enumerate(corners.T):
             y_same_x = np.argwhere(col)
             for y1, y2 in zip(y_same_x[:-1], y_same_x[1:]):
-                if y2[0] - y1[0] < 190:
+                if y2[0] - y1[0] < 225:
                     color = 0
                     # print(y1)
                     cv2.line(opening, (x, y1[0]), (x, y2[0]), 255, 1)
@@ -59,7 +59,7 @@ def segment_rooms(image):
         if len(cnt) > 0:
             area = cv2.contourArea(cnt[0]) + 0.0000001
             area_ratio = image_area / area
-            if area_ratio < 800:
+            if area_ratio < 500:
                 areas.append(area)
                 filtered_contours.append(cnt)
                 print("Contour area:", area)

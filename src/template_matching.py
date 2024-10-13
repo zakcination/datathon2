@@ -54,7 +54,12 @@ if __name__ == "__main__":
     template_path = "data/templates/hall_table.png"
     output_image_path = "data/output_images/output.png"
 
-    matches = match_template(input_image_path, template_path)
+    # rotate template by 90 degrees and save it as a new file
+    template = cv2.imread(template_path)
+    template = cv2.rotate(template, cv2.ROTATE_90_CLOCKWISE)
+    cv2.imwrite("data/templates/hall_table_rotated.png", template)
+
+    matches = match_template(input_image_path, "data/templates/hall_table_rotated.png")
     draw_matches(input_image_path, matches, output_image_path)
 
     print(f"Output saved at: {output_image_path}")
